@@ -1,0 +1,36 @@
+#
+#  Contenedor Plex 
+#
+#             +---------------------+
+#             |                     |
+#  <--> 32400 |  Plex Media Server  |
+#             |                     |
+#             +---------------------+
+#
+
+##  ===========================================================================
+#   Plex Media Server
+#
+#   Ejecución manual para hacer troubleshooting
+#
+#   docker run --net="host" --rm -t -i -p 32400:32400 -v /Volumen/A/Configuración/Plex:/config -v /Volumen/Multimedia:/data -v /Volumen/Timezone/tz:/config/tz luispa/base-plex /bin/bash
+#
+plex:
+
+  image: luispa/base-plex
+
+  # Asociación de directorios
+  volumes:
+    - "/Volumen/A/Configuración/Plex:/config"
+    - "/Volumen/Multimedia:/data"
+    - "/Volumen/Timezone/tz:/config/tz"
+
+  # Puerto externo
+  ports:
+    - "32400:32400"
+
+  # Para que funcione la auto-detección desde los clientes
+  net: "host"
+
+  # Comando a ejecutar
+  command: supervisord -n -c /etc/supervisor/supervisord.conf

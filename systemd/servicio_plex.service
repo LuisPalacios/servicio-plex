@@ -1,0 +1,12 @@
+[Unit]
+Description=Servicio PLEX
+After=syslog.target network.target auditd.service docker.service Apps.mount
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /Apps/docker/servicio-plex/start-fig.sh
+ExecStop=/bin/bash /Apps/docker/servicio-plex/stop-fig.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
